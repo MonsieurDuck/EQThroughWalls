@@ -435,9 +435,9 @@ EQThroughWallsAudioProcessor::createParameterLayout()
 		wallsArray.add(str);
 	}
 
-	layout.add(std::make_unique <juce::AudioParameterChoice>("Material", "Material", stringArray, 0));
-
 	layout.add(std::make_unique <juce::AudioParameterChoice>("Walls In Between", "Walls In Between", wallsArray, 0));
+
+	layout.add(std::make_unique <juce::AudioParameterChoice>("Material", "Material", stringArray, 0));
 
 	return layout;
 };
@@ -464,7 +464,7 @@ float EQThroughWallsAudioProcessor::convertWallsToFrequency(WallValues wallCount
 	}
 	case four:
 	{
-		return 100.f;
+		return 325.f;
 	}
 	}
 	return 0.f;
