@@ -18,12 +18,22 @@ enum Slope
     Slope_48
 };
 
+enum WallValues
+{
+    zero,
+    one,
+    two,
+    three,
+    four
+};
+
 struct ChainSettings
 {
-    float peakFreq{ 0 }, peakGainInDecibels{ 0 }, peakQuality{ 1.f };
-    float lowCutFreq{ 0 }, highCutFreq{ 0 };
-    Slope lowCutSlope{ Slope::Slope_12 }, highCutSlope{ Slope::Slope_12 };
+    WallValues highCutFreq{ WallValues::zero };
+    Slope highCutSlope{ Slope::Slope_12 };
 };
+
+
 
 ChainSettings getChainSettings(juce::AudioProcessorValueTreeState& apvts);
 
@@ -73,6 +83,8 @@ public:
     static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
 
     juce::AudioProcessorValueTreeState apvts { *this, nullptr, "Parameters", createParameterLayout()};
+
+    static float EQThroughWallsAudioProcessor::convertWallsToFrequency(WallValues wallCount);
 
 private:
     using Filter = juce::dsp::IIR::Filter<float>;

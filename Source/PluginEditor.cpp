@@ -29,8 +29,12 @@ void EQThroughWallsAudioProcessorEditor::paint (juce::Graphics& g)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
 
     g.setColour (juce::Colours::white);
-    g.setFont (15.0f);
+    g.setFont (20.0f);
+    g.setFont(juce::Font("Times New Roman", 20.0f, juce::Font::italic));
     g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+
+    g.setColour(juce::Colours::green);
+    g.drawLine(10, 300, 590, 300, 5);
 }
 
 void EQThroughWallsAudioProcessorEditor::resized()
