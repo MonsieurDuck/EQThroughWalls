@@ -10,6 +10,33 @@
 
 #include <JuceHeader.h>
 
+enum Slope
+{
+	Slope_12,
+    Slope_24,
+    Slope_32,
+    Slope_48
+};
+
+enum WallValues
+{
+    zero,
+    one,
+    two,
+    three,
+    four
+};
+
+struct ChainSettings
+{
+    WallValues highCutFreq{ WallValues::zero };
+    Slope highCutSlope{ Slope::Slope_12 };
+};
+
+
+
+ChainSettings getChainSettings(juce::AudioProcessorValueTreeState& apvts);
+
 //==============================================================================
 /**
 */
@@ -57,7 +84,24 @@ public:
 
     juce::AudioProcessorValueTreeState apvts { *this, nullptr, "Parameters", createParameterLayout()};
 
+    static float EQThroughWallsAudioProcessor::convertWallsToFrequency(WallValues wallCount);
+
 private:
+    using Filter = juce::dsp::IIR::Filter<float>;
+
+    using CutFilter = juce::dsp::ProcessorChain<Filter, Filter, Filter, Filter>;
+
+    using MonoChain = juce::dsp::ProcessorChain<CutFilter, Filter, CutFilter>;
+
+    MonoChain leftChain, rightChain;
+
+    enum ChainPositions
+    {
+	    LowCut,
+        Peak,
+        HighCut
+    };
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (EQThroughWallsAudioProcessor)
 };
